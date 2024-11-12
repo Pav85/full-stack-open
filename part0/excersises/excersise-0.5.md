@@ -1,7 +1,7 @@
 ```
 sequenceDiagram
-participant browser
-participant server
+    participant browser
+    participant server
 
     Note right of browser: User opens the SPA version at /spa
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa
