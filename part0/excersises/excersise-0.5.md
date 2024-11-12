@@ -11,7 +11,7 @@ participant server
 
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
     activate server
-    server-->>browser: CSS file (for styling)
+    server-->>browser: CSS file
     deactivate server
 
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
@@ -32,8 +32,8 @@ participant server
 
     browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa with note data
     activate server
-    server-->>browser: 201 Created (success, no reload)
+    server-->>browser: 201 Created
     deactivate server
 
-    Note right of browser: JavaScript instantly shows the new note on the page
+    Note right of browser: JavaScript shows the new note on the page
 ```
