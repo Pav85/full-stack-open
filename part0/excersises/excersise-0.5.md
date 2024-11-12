@@ -28,7 +28,7 @@ participant server
 
     Note right of browser: JavaScript displays the notes on the page
 
-    Note right of browser: User writes a new note and clicks "Save"
+    Note right of browser: User creates a new note and clicks "Save"
 
     browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa with note data
     activate server

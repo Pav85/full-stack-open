@@ -1,10 +1,10 @@
 ```
 sequenceDiagram
-  participant browser
-  participant server
-```
+    participant browser
+    participant server
 
-    Note right of browser: User writes a note in the input field and clicks "Save" button
+
+    Note right of browser: User creates a new note in the input field and clicks "Save" button
     browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note with note data
     activate server
     server-->>browser: Redirect to /notes
@@ -35,3 +35,4 @@ sequenceDiagram
     deactivate server
 
     Note right of browser: Browser executes callback to render updated notes
+```
