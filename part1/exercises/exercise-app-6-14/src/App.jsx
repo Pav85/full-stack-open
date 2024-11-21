@@ -10,17 +10,27 @@ const App = () => {
   const average = (all ? (good - bad) / all : 0).toFixed(2);
   const positivePercentage = ((good / all) * 100).toFixed(2);
 
+  // event handlers
+  const handleGoodClick = () => setGood(good + 1);
+  const handleNeutralClick = () => setNeutral(neutral + 1);
+  const handleBadClick = () => setBad(bad + 1);
+
+  // components
   const Button = ({ onClick, text }) => (
     <button onClick={onClick}>{text}</button>
   );
 
-  const Feedback = ({ setGood, setNeutral, setBad }) => {
+  const Feedback = ({
+    handleGoodClick,
+    handleNeutralClick,
+    handleBadClick,
+  }) => {
     return (
       <div>
         <h1>give feedback</h1>
-        <Button onClick={() => setGood(good + 1)} text="good" />
-        <Button onClick={() => setNeutral(neutral + 1)} text="neutral" />
-        <Button onClick={() => setBad(bad + 1)} text="bad" />
+        <Button onClick={handleGoodClick} text="good" />
+        <Button onClick={handleNeutralClick} text="neutral" />
+        <Button onClick={handleBadClick} text="bad" />
       </div>
     );
   };
@@ -57,7 +67,11 @@ const App = () => {
 
   return (
     <>
-      <Feedback setGood={setGood} setNeutral={setNeutral} setBad={setBad} />
+      <Feedback
+        handleGoodClick={handleGoodClick}
+        handleNeutralClick={handleNeutralClick}
+        handleBadClick={handleBadClick}
+      />
       <Statistics
         good={good}
         neutral={neutral}
