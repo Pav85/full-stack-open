@@ -3,7 +3,7 @@ import { useState } from "react";
 const Button = ({ onClick }) => {
   return (
     <button onClick={onClick} style={{ display: "block", margin: "10px 0" }}>
-      next aqnecdote
+      next anecdote
     </button>
   );
 };
