@@ -11,6 +11,36 @@ const Button = ({ onClick, text }) => {
   );
 };
 
+const AnecdoteDisplay = ({ anecdotes, selected, votes }) => {
+  return (
+    <>
+      <h1>Anecdote of the day</h1>
+      <div>{anecdotes[selected]}</div>
+      <p>has {votes[selected]} votes</p>
+    </>
+  );
+};
+
+const MostPopularAnecdoteDisplay = ({
+  anecdotes,
+  mostVotes,
+  mostVotedIndex,
+}) => {
+  return (
+    <div>
+      <h1>Anecdotes with most votes</h1>
+      {mostVotes > 0 ? (
+        <>
+          <div>{anecdotes[mostVotedIndex]}</div>
+          <p>has {mostVotes} votes</p>
+        </>
+      ) : (
+        <div>No votes yet</div>
+      )}
+    </div>
+  );
+};
+
 const App = () => {
   // variables
   const anecdotes = [
@@ -41,12 +71,23 @@ const App = () => {
     setVotes(copy);
   };
 
+  const mostVotes = Math.max(...votes);
+  const mostVotedIndex = votes.indexOf(mostVotes);
+
   return (
     <>
-      <div>{anecdotes[selected]}</div>
-      <p>has {votes[selected]} votes</p>
+      <AnecdoteDisplay
+        anecdotes={anecdotes}
+        selected={selected}
+        votes={votes}
+      />
       <Button onClick={handleVote} text="vote" />
       <Button onClick={handleNextAnecdote} text="next anecdote" />
+      <MostPopularAnecdoteDisplay
+        anecdotes={anecdotes}
+        mostVotes={mostVotes}
+        mostVotedIndex={mostVotedIndex}
+      />
     </>
   );
 };
