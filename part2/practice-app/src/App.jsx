@@ -1,25 +1,14 @@
-import { useState } from "react";
-
-const Display = ({ value }) => <div>{value}</div>;
-
-const Button = (props) => (
-  <button onClick={props.handleClick}>{props.text}</button>
-);
-
-const App = () => {
-  const [value, setValue] = useState(10);
-
-  const setToValue = (newValue) => {
-    console.log("value now", newValue);
-    setValue(newValue);
-  };
+const App = (props) => {
+  const { notes } = props;
 
   return (
     <div>
-      <Display value={value} />
-      <Button handleClick={() => setToValue(1000)} text="thousand" />
-      <Button handleClick={() => setToValue(0)} text="reset" />
-      <Button handleClick={() => setToValue(value + 1)} text="increment" />
+      <h1>Notes</h1>
+      <ul>
+        <li>{notes[0].content}</li>
+        <li>{notes[1].content}</li>
+        <li>{notes[2].content}</li>
+      </ul>
     </div>
   );
 };
