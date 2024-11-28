@@ -3,6 +3,7 @@ import { useState } from "react";
 const App = () => {
   const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
   const [newName, setNewName] = useState("");
+  const [newNumber, setNewNumber] = useState("");
 
   const capitalizeFirstLetter = (name) => {
     return name
@@ -17,9 +18,10 @@ const App = () => {
     event.preventDefault();
 
     const trimmedName = newName.trim();
+    const trimmedNumber = newNumber.trim();
     const capitalizedName = capitalizeFirstLetter(trimmedName);
 
-    if (!trimmedName) {
+    if (!trimmedName || !trimmedNumber) {
       return;
     }
 
@@ -30,14 +32,21 @@ const App = () => {
 
     const personObject = {
       name: capitalizedName,
+      number: trimmedNumber,
     };
 
     setPersons(persons.concat(personObject));
     setNewName("");
+    setNewNumber("");
   };
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
+  };
+
+  const handleNumberChange = (event) => {
+    console.log(event.target.value);
+    setNewNumber(event.target.value);
   };
 
   return (
@@ -47,6 +56,10 @@ const App = () => {
         <div>
           name: <input value={newName} onChange={handleNameChange} />
         </div>
+        <br />
+        <div>
+          number: <input type="number" onChange={handleNumberChange} />
+        </div>
         <div>
           <button type="submit">add</button>
         </div>
@@ -55,7 +68,9 @@ const App = () => {
       <ul>
         {" "}
         {persons.map((person) => (
-          <li key={person.name}>{person.name}</li>
+          <li key={person.name}>
+            {person.name} {person.number}
+          </li>
         ))}
       </ul>
     </div>
