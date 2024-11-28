@@ -4,10 +4,32 @@ const App = () => {
   const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
   const [newName, setNewName] = useState("");
 
+  const capitalizeFirstLetter = (name) => {
+    return name
+      .split(" ")
+      .map((word) => {
+        return word.charAt(0).toUpperCase() + word.slice(1);
+      })
+      .join(" ");
+  };
+
   const handleAddName = (event) => {
     event.preventDefault();
+
+    const trimmedName = newName.trim();
+    const capitalizedName = capitalizeFirstLetter(trimmedName);
+
+    if (!trimmedName) {
+      return;
+    }
+
+    if (persons.some((person) => person.name === capitalizedName)) {
+      alert(`${capitalizedName} is already added to phonebook`);
+      return;
+    }
+
     const personObject = {
-      name: newName,
+      name: capitalizedName,
     };
 
     setPersons(persons.concat(personObject));
