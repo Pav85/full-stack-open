@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import personsService from "./services/persons";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
@@ -12,9 +12,9 @@ const App = () => {
   const [filteredPersons, setFilteredPersons] = useState(persons);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
-      setPersons(response.data);
-      setFilteredPersons(response.data);
+    personsService.getAll().then((personsData) => {
+      setPersons(personsData);
+      setFilteredPersons(personsData);
     });
   }, []);
 
@@ -48,18 +48,13 @@ const App = () => {
       number: trimmedNumber,
     };
 
-    axios
-      .post("http://localhost:3001/persons", personObject)
-      .then((response) => {
-        const updatedPersons = persons.concat(response.data);
-        setPersons(updatedPersons);
-        setFilteredPersons(updatedPersons);
-        setNewName("");
-        setNewNumber("");
-      })
-      .catch((error) => {
-        console.log(error.response.data);
-      });
+    personsService.create(personObject).then((response) => {
+      const updatedPersons = persons.concat(response);
+      setPersons(updatedPersons);
+      setFilteredPersons(updatedPersons);
+      setNewName("");
+      setNewNumber("");
+    });
   };
 
   const handleNameChange = (event) => {
