@@ -60,7 +60,6 @@ const App = () => {
   };
 
   const handleNumberChange = (event) => {
-    // console.log(event.target.value);
     setNewNumber(event.target.value);
   };
 
