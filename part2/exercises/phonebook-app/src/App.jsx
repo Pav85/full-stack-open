@@ -70,7 +70,7 @@ const App = () => {
     setFilter(filterValue);
 
     const filtered = persons.filter((person) =>
-      person.name.toLowerCase().includes(event.target.value.toLowerCase())
+      person.name.toLowerCase().includes(filterValue.toLowerCase())
     );
 
     setFilteredPersons(filtered);
