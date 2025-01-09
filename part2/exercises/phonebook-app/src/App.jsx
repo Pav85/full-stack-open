@@ -48,11 +48,18 @@ const App = () => {
       number: trimmedNumber,
     };
 
-    const updatedPersons = persons.concat(personObject);
-    setPersons(updatedPersons);
-    setFilteredPersons(updatedPersons);
-    setNewName("");
-    setNewNumber("");
+    axios
+      .post("http://localhost:3001/persons", personObject)
+      .then((response) => {
+        const updatedPersons = persons.concat(response.data);
+        setPersons(updatedPersons);
+        setFilteredPersons(updatedPersons);
+        setNewName("");
+        setNewNumber("");
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
   };
 
   const handleNameChange = (event) => {
