@@ -38,23 +38,45 @@ const App = () => {
       return;
     }
 
-    if (persons.some((person) => person.name === capitalizedName)) {
-      alert(`${capitalizedName} is already added to phonebook`);
-      return;
+    const personToUpdate = persons.find(
+      (person) => person.name === capitalizedName
+    );
+
+    if (personToUpdate) {
+      const confirmUpdate = window.confirm(
+        `${capitalizedName} is already added to phonebook, replace the old number with a new one?`
+      );
+
+      if (confirmUpdate) {
+        const updatedPerson = { ...personToUpdate, number: trimmedNumber };
+
+        personsService
+          .update(personToUpdate.id, updatedPerson)
+          .then((response) => {
+            const updatedPersons = persons.map((person) =>
+              person.id !== personToUpdate.id ? person : response
+            );
+
+            setPersons(updatedPersons);
+            setFilteredPersons(updatedPersons);
+            setNewName("");
+            setNewNumber("");
+          });
+      }
+    } else {
+      const personObject = {
+        name: capitalizedName,
+        number: trimmedNumber,
+      };
+
+      personsService.create(personObject).then((response) => {
+        const updatedPersons = persons.concat(response);
+        setPersons(updatedPersons);
+        setFilteredPersons(updatedPersons);
+        setNewName("");
+        setNewNumber("");
+      });
     }
-
-    const personObject = {
-      name: capitalizedName,
-      number: trimmedNumber,
-    };
-
-    personsService.create(personObject).then((response) => {
-      const updatedPersons = persons.concat(response);
-      setPersons(updatedPersons);
-      setFilteredPersons(updatedPersons);
-      setNewName("");
-      setNewNumber("");
-    });
   };
 
   const handleDeleteName = (id, name) => {
