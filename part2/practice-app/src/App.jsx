@@ -28,7 +28,6 @@ const App = () => {
   };
 
   const handleNoteChange = (event) => {
-    console.log(event.target.value);
     setNewNote(event.target.value);
   };
 
@@ -45,7 +44,8 @@ const App = () => {
       .then((returnedNote) => {
         setNotes(notes.map((note) => (note.id === id ? returnedNote : note)));
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error(error);
         alert(`the note '${note.content}' was already deleted from server`);
         setNotes(notes.filter((n) => n.id !== id));
       });
