@@ -3,6 +3,7 @@ import personsService from "./services/persons";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
+import Notification from "./components/Notification";
 import "./index.css";
 
 const App = () => {
@@ -11,7 +12,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
   const [filteredPersons, setFilteredPersons] = useState(persons);
-  const [mesage, setMessage] = useState(null);
+  const [message, setMessage] = useState(null);
   const [messageType, setMessageType] = useState("success");
 
   useEffect(() => {
@@ -64,6 +65,17 @@ const App = () => {
             setFilteredPersons(updatedPersons);
             setNewName("");
             setNewNumber("");
+            setMessage(`Updated ${capitalizedName}`);
+            setTimeout(() => {
+              setMessage(null);
+            }, 2000);
+          })
+          .catch((error) => {
+            console.error(error);
+            setMessageType("error");
+            setMessage(
+              `Information of ${capitalizedName} has not been updated.`
+            );
           });
       }
     } else {
@@ -72,13 +84,27 @@ const App = () => {
         number: trimmedNumber,
       };
 
-      personsService.create(personObject).then((response) => {
-        const updatedPersons = persons.concat(response);
-        setPersons(updatedPersons);
-        setFilteredPersons(updatedPersons);
-        setNewName("");
-        setNewNumber("");
-      });
+      personsService
+        .create(personObject)
+        .then((response) => {
+          const updatedPersons = persons.concat(response);
+          setPersons(updatedPersons);
+          setFilteredPersons(updatedPersons);
+          setNewName("");
+          setNewNumber("");
+          setMessage(`Added ${capitalizedName}`);
+          setTimeout(() => {
+            setMessage(null);
+          }, 2000);
+        })
+        .catch((error) => {
+          console.error(error);
+          setMessageType("error");
+          setMessage(`${capitalizedName} has not been added to the phonebook.`);
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
+        });
     }
   };
 
@@ -89,11 +115,25 @@ const App = () => {
       return;
     }
 
-    personsService.remove(id).then(() => {
-      const updatedPersons = persons.filter((person) => person.id !== id);
-      setPersons(updatedPersons);
-      setFilteredPersons(updatedPersons);
-    });
+    personsService
+      .remove(id)
+      .then(() => {
+        const updatedPersons = persons.filter((person) => person.id !== id);
+        setPersons(updatedPersons);
+        setFilteredPersons(updatedPersons);
+        setMessage(`Deleted ${name}`);
+        setTimeout(() => {
+          setMessage(null);
+        }, 2000);
+      })
+      .catch((error) => {
+        console.error(error);
+        setMessageType("error");
+        setMessage(`${name} has not been deleted from the phonebook.`);
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
+      });
   };
 
   const handleNameChange = (event) => {
@@ -118,6 +158,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification message={message} type={messageType} />
 
       <Filter handleFilterChange={handleFilterChange} filter={filter} />
 
