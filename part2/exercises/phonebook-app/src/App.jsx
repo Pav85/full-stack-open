@@ -13,7 +13,7 @@ const App = () => {
   const [filter, setFilter] = useState("");
   const [filteredPersons, setFilteredPersons] = useState(persons);
   const [message, setMessage] = useState(null);
-  const [messageType, setMessageType] = useState("success");
+  const [messageType, setMessageType] = useState(null);
 
   useEffect(() => {
     personsService.getAll().then((personsData) => {
@@ -39,6 +39,12 @@ const App = () => {
     const capitalizedName = capitalizeFirstLetter(trimmedName);
 
     if (!trimmedName || !trimmedNumber) {
+      setMessageType("error");
+      setMessage("Name and number are required fields.");
+      setTimeout(() => {
+        setMessage(null);
+        setMessageType(null);
+      }, 5000);
       return;
     }
 
@@ -65,17 +71,23 @@ const App = () => {
             setFilteredPersons(updatedPersons);
             setNewName("");
             setNewNumber("");
+            setMessageType("success");
             setMessage(`Updated ${capitalizedName}`);
             setTimeout(() => {
               setMessage(null);
+              setMessageType(null);
             }, 2000);
           })
           .catch((error) => {
             console.error(error);
             setMessageType("error");
             setMessage(
-              `Information of ${capitalizedName} has not been updated.`
+              `Information of ${capitalizedName} has already been removed from the server.`
             );
+            setTimeout(() => {
+              setMessage(null);
+              setMessageType(null);
+            }, 5000);
           });
       }
     } else {
@@ -92,9 +104,11 @@ const App = () => {
           setFilteredPersons(updatedPersons);
           setNewName("");
           setNewNumber("");
+          setMessageType("success");
           setMessage(`Added ${capitalizedName}`);
           setTimeout(() => {
             setMessage(null);
+            setMessageType(null);
           }, 2000);
         })
         .catch((error) => {
@@ -103,6 +117,7 @@ const App = () => {
           setMessage(`${capitalizedName} has not been added to the phonebook.`);
           setTimeout(() => {
             setMessage(null);
+            setMessageType(null);
           }, 5000);
         });
     }
@@ -121,9 +136,11 @@ const App = () => {
         const updatedPersons = persons.filter((person) => person.id !== id);
         setPersons(updatedPersons);
         setFilteredPersons(updatedPersons);
+        setMessageType("success");
         setMessage(`Deleted ${name}`);
         setTimeout(() => {
           setMessage(null);
+          setMessageType(null);
         }, 2000);
       })
       .catch((error) => {
@@ -132,6 +149,7 @@ const App = () => {
         setMessage(`${name} has not been deleted from the phonebook.`);
         setTimeout(() => {
           setMessage(null);
+          setMessageType(null);
         }, 5000);
       });
   };
