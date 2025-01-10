@@ -10,6 +10,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
   const [filteredPersons, setFilteredPersons] = useState(persons);
+  const [mesage, setMessage] = useState(null);
+  const [messageType, setMessageType] = useState("success");
 
   useEffect(() => {
     personsService.getAll().then((personsData) => {
