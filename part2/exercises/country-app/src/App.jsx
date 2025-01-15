@@ -1,7 +1,10 @@
 const App = () => {
   return (
     <div>
-      <p>Hello world</p>
+      <h1>Country App</h1>
+      <div>
+        search countries <input />
+      </div>
     </div>
   );
 };
