@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Search from "./components/Search";
-import Message from "./components/Message";
+import Content from "./components/Content";
 
 const App = () => {
   const [countries, setCountries] = useState([]);
@@ -8,7 +8,6 @@ const App = () => {
   const [message, setMessage] = useState(null);
 
   const handleSearchCountry = (event) => {
-    console.log(event.target.value);
     const searchValue = event.target.value;
     setSearchCountry(searchValue);
   };
@@ -17,7 +16,13 @@ const App = () => {
     <div>
       <h1>Country App</h1>
       <Search handleSearchCountry={handleSearchCountry} />
-      <Message message={message} />
+
+      <Content
+        countries={countries}
+        searchCountry={searchCountry}
+        setCountries={setCountries}
+        setMessage={setMessage}
+      />
     </div>
   );
 };
