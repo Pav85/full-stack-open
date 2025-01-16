@@ -17,7 +17,7 @@ const App = () => {
     <div>
       <h1>Country App</h1>
       <Search handleSearchCountry={handleSearchCountry} />
-      <Message />
+      <Message message={message} />
     </div>
   );
 };

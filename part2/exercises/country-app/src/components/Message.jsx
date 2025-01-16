@@ -1,5 +1,5 @@
-const Message = () => {
-  return <div>Message</div>;
+const Message = ({ message }) => {
+  return <div>{message}</div>;
 };
 
 export default Message;
