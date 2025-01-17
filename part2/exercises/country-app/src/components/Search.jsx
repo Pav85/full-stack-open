@@ -1,7 +1,7 @@
 const Search = ({ handleSearchCountry }) => {
   return (
     <div>
-      search countries <input onChange={handleSearchCountry} />
+      Search countries <input onChange={handleSearchCountry} />
     </div>
   );
 };
