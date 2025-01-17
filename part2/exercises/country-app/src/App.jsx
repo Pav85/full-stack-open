@@ -8,6 +8,7 @@ const App = () => {
   const [countries, setCountries] = useState([]);
   const [searchCountry, setSearchCountry] = useState("");
   const [message, setMessage] = useState(null);
+  const [showCountry, setShowCountry] = useState(null);
 
   useEffect(() => {
     if (searchCountry) {
@@ -37,6 +38,7 @@ const App = () => {
   const handleSearchCountry = (event) => {
     const searchValue = event.target.value;
     setSearchCountry(searchValue);
+    setShowCountry(null);
   };
 
   return (
@@ -44,7 +46,11 @@ const App = () => {
       <h1>Country App</h1>
       <Search handleSearchCountry={handleSearchCountry} />
       {message && <Message message={message} />}
-      <Content countries={countries} />
+      <Content
+        countries={countries}
+        showCountry={showCountry}
+        setShowCountry={setShowCountry}
+      />
     </div>
   );
 };
