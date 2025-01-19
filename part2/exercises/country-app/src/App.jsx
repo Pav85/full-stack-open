@@ -9,9 +9,6 @@ const App = () => {
   const [searchCountry, setSearchCountry] = useState("");
   const [message, setMessage] = useState(null);
   const [showCountry, setShowCountry] = useState(null);
-  const [weather, setWeather] = useState(null);
-
-  const api_key = import.meta.env.VITE_WEATHER_API_KEY;
 
   useEffect(() => {
     if (searchCountry) {
@@ -37,10 +34,6 @@ const App = () => {
       setMessage(null);
     }
   }, [searchCountry]);
-
-  useEffect(() => {
-    console.log("Api key:", api_key);
-  }, []);
 
   const handleSearchCountry = (event) => {
     const searchValue = event.target.value;
