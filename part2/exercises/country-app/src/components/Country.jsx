@@ -1,3 +1,5 @@
+import Weather from "./Weather";
+
 const Country = ({ country }) => {
   return (
     <div>
@@ -17,6 +19,8 @@ const Country = ({ country }) => {
         alt={`Flag of ${country.name.common}`}
         height="120"
       />
+
+      <Weather country={country} />
     </div>
   );
 };
