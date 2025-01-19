@@ -10,6 +10,8 @@ const App = () => {
   const [message, setMessage] = useState(null);
   const [showCountry, setShowCountry] = useState(null);
 
+  // const api_key = import.meta.env.VITE_API_KEY;
+
   useEffect(() => {
     if (searchCountry) {
       axios
