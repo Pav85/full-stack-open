@@ -20,7 +20,7 @@ const Country = ({ country }) => {
         height="120"
       />
 
-      <Weather country={country} />
+      <Weather countryCapital={country.capital[0]} />
     </div>
   );
 };
