@@ -44,6 +44,19 @@ app.get("/info", (request, response) => {
   );
 });
 
+app.get("/api/persons/:id", (request, response) => {
+  const id = request.params.id;
+  const person = persons.find((person) => person.id === id);
+
+  if (person) {
+    response.json(person);
+    console.log("Person found");
+  } else {
+    response.status(404).end();
+    console.log("Person not found");
+  }
+});
+
 const PORT = 3001;
 
 app.listen(PORT, () => {
