@@ -61,8 +61,7 @@ app.delete("/api/persons/:id", (request, response) => {
   const id = request.params.id;
   persons = persons.filter((person) => person.id !== id);
 
-  response.send(`Person with id ${id} deleted`);
-  console.log("Person deleted");
+  console.log(`Person with id ${id} deleted`);
   response.status(204).end();
 });
 
@@ -74,6 +73,20 @@ const generateId = () => {
 app.post("/api/persons", (request, response) => {
   const body = request.body;
 
+  if (!body.name || !body.number) {
+    console.log("Name or number missing");
+    return response.status(400).json({
+      error: "name or number missing",
+    });
+  }
+
+  if (persons.find((person) => person.name === body.name)) {
+    console.log("Name already exists");
+    return response.status(400).json({
+      error: "name must be unique",
+    });
+  }
+
   const person = {
     id: generateId(),
     name: body.name,
@@ -83,6 +96,7 @@ app.post("/api/persons", (request, response) => {
   persons = persons.concat(person);
 
   response.json(person);
+  console.log("Person added");
 });
 
 const PORT = 3001;
