@@ -57,6 +57,34 @@ app.get("/api/persons/:id", (request, response) => {
   }
 });
 
+app.delete("/api/persons/:id", (request, response) => {
+  const id = request.params.id;
+  persons = persons.filter((person) => person.id !== id);
+
+  response.send(`Person with id ${id} deleted`);
+  console.log("Person deleted");
+  response.status(204).end();
+});
+
+const generateId = () => {
+  const id = Math.floor(Math.random() * 1000000).toString();
+  return id;
+};
+
+app.post("/api/persons", (request, response) => {
+  const body = request.body;
+
+  const person = {
+    id: generateId(),
+    name: body.name,
+    number: body.number,
+  };
+
+  persons = persons.concat(person);
+
+  response.json(person);
+});
+
 const PORT = 3001;
 
 app.listen(PORT, () => {
