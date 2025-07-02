@@ -1,6 +1,30 @@
 const express = require("express");
 const cors = require("cors");
+const mongoose = require("mongoose");
+
 const app = express();
+
+const password = process.argv[2];
+const url = `mongodb+srv://fullstack:${password}@cluster0.85fctfq.mongodb.net/noteApp?retryWrites=true&w=majority&appName=Cluster0`;
+const PORT = process.env.PORT || 3001;
+
+mongoose.set("strictQuery", false);
+mongoose.connect(url);
+
+const noteSchema = new mongoose.Schema({
+  content: String,
+  important: Boolean,
+});
+
+noteSchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
+});
+
+const Note = mongoose.model("Note", noteSchema);
 
 app.use(express.json());
 app.use(cors());
@@ -24,12 +48,20 @@ let notes = [
   },
 ];
 
+const generateId = () => {
+  const maxId =
+    notes.length > 0 ? Math.max(...notes.map((n) => Number(n.id))) : 0;
+  return String(maxId + 1);
+};
+
 app.get("/", (request, response) => {
   response.send("<h1>Hello World!</h1>");
 });
 
 app.get("/api/notes", (request, response) => {
-  response.json(notes);
+  Note.find({}).then((notes) => {
+    response.json(notes);
+  });
 });
 
 app.get("/api/notes/:id", (request, response) => {
@@ -49,12 +81,6 @@ app.delete("/api/notes/:id", (request, response) => {
 
   response.status(204).end();
 });
-
-const generateId = () => {
-  const maxId =
-    notes.length > 0 ? Math.max(...notes.map((n) => Number(n.id))) : 0;
-  return String(maxId + 1);
-};
 
 app.post("/api/notes", (request, response) => {
   const body = request.body;
@@ -81,8 +107,6 @@ const unknownEndpoint = (request, response) => {
 };
 
 app.use(unknownEndpoint);
-
-const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
